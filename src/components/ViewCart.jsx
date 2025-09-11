@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {FaRegEye, FaStar} from "react-icons/fa";
 
 const ViewCart = () => {
     const {id} = useParams();
     const [viewMovie, setViewMovie] = useState(null);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -20,9 +21,6 @@ const ViewCart = () => {
         }
     }, [id]);
 
-    useEffect(() => {
-        console.log("Updated viewMovie:", viewMovie);
-    }, [viewMovie]);
 
     if (!viewMovie) {
         return (
@@ -43,28 +41,31 @@ const ViewCart = () => {
                     <span className="lg:text-xl text-sm px-3 py-2 rounded-md flex gap-2 items-center bg-gray-800">
                         <FaStar className="text-amber-400"/>
                         {viewMovie.vote_average?.toFixed(1)}/10<span className='mr-2'></span>
-                        <FaRegEye />
+                        <FaRegEye/>
                         {viewMovie.vote_count > 1000
                             ? `${(viewMovie.vote_count / 1000).toFixed(1)}k`
                             : viewMovie.vote_count}
                     </span>
                 </div>
             </div>
-            <div className="w-10/12 m-auto mt-3 gap-x-3 gap-y-3 grid rounded-md sm:gap-3 lg:grid-cols-[1fr_2fr] md:grid-cols-1 xl:grid-cols-[1fr_2fr] ">
+            <div
+                className="w-10/12 m-auto mt-3 gap-x-3 gap-y-3 grid rounded-md sm:gap-3 lg:grid-cols-[1fr_2fr] md:grid-cols-1 xl:grid-cols-[1fr_2fr] ">
                 <div className="w-full h-[430px] rounded-md object-cover ">
-                    <img className="w-full h-full rounded-md object-cover" src={`https://image.tmdb.org/t/p/w400/${viewMovie['poster_path']}`}/>
+                    <img className="w-full h-full rounded-md object-cover"
+                         src={`https://image.tmdb.org/t/p/w400/${viewMovie['poster_path']}`}/>
                 </div>
                 <div className="w-full h-[430px] rounded-md object-cover ">
-                    <img className="w-full h-full rounded-md object-cover" src={`https://image.tmdb.org/t/p/w400/${viewMovie['backdrop_path']}`}/>
+                    <img className="w-full h-full rounded-md object-cover"
+                         src={`https://image.tmdb.org/t/p/w400/${viewMovie['backdrop_path']}`}/>
                 </div>
             </div>
             <div className=" w-10/12 m-auto mt-3 gap-x-3 gap-y-3 grid rounded-md sm:gap-3 ">
-                <Link to={"/"} className="w-full text-blue-200 text-2xl font-bold py-5">
+                <button onClick={() => navigate(-1)} className="w-full text-blue-200 text-2xl font-bold py-5 cursor-pointer">
                     View All Movies
-                </Link>
+                </button>
                 <table className="w-full rounded-md object-cover ">
                     <tbody>
-                    <tr >
+                    <tr>
                         <td className="text-white text-sm lg:text-2xl  font-bold w-1/6 py-5">Overview</td>
                         <td className="text-white text-sm lg:text-2xl py-5">{viewMovie['overview']}</td>
                     </tr>
